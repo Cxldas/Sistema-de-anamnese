@@ -13,7 +13,7 @@ import time
 class ClinicalAnamnesisAPITester:
     def __init__(self, base_url="https://clinical-flow-1.preview.emergentagent.com/api"):
         self.base_url = base_url
-        self.session_token = "test_session_1762260730653"  # From MongoDB setup
+        self.session_token = "test_session_1762261246986"  # From MongoDB setup
         self.tests_run = 0
         self.tests_passed = 0
         self.anamnese_id = None
