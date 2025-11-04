@@ -95,6 +95,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await axios.post(`${API}/auth/logout`, {}, { withCredentials: true });
       document.cookie = 'session_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      delete axios.defaults.headers.common['Authorization'];
       setUser(null);
       window.location.href = '/login';
     } catch (error) {
