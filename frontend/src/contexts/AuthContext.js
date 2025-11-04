@@ -67,12 +67,20 @@ export const AuthProvider = ({ children }) => {
 
   const checkSession = async () => {
     try {
+      // Try to get session token from cookie
+      const cookieMatch = document.cookie.match(/session_token=([^;]+)/);
+      if (cookieMatch) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${cookieMatch[1]}`;
+      }
+
       const response = await axios.get(`${API}/auth/me`, {
         withCredentials: true
       });
       setUser(response.data);
     } catch (error) {
       console.log('No active session');
+      // Clear any stale auth header
+      delete axios.defaults.headers.common['Authorization'];
     } finally {
       setLoading(false);
     }
