@@ -39,8 +39,18 @@ export const AuthProvider = ({ children }) => {
         }
       );
 
-      // Set cookie
-      document.cookie = `session_token=${response.data.session_token}; path=/; secure; samesite=none; max-age=604800`;
+      // Set cookie with proper attributes
+      const cookieValue = `session_token=${response.data.session_token}`;
+      const cookieAttributes = [
+        'path=/',
+        'max-age=604800',
+        'secure',
+        'samesite=none'
+      ];
+      document.cookie = `${cookieValue}; ${cookieAttributes.join('; ')}`;
+
+      // Also store in axios defaults for all subsequent requests
+      axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.session_token}`;
 
       setUser({
         id: response.data.id,
